@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pictureLikes = element.querySelector('.picture__likes');
         const pictureDescr = element.querySelector('.picture__description');
         const pictureContent = element.querySelector('.content__wrapper');
-        pictureContent.style.display = 'block';
+        // pictureContent.style.display = 'block';
         const bigPictureTemplate = `
             <div class="wrapper-of-big-picture">
                 <div class="big-picture">
@@ -227,13 +227,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         </div>
                     </div>
-                    <img class="btn-close" src="img/close.png">
+                    <img class="btn-close" src="img/close.png" id="red-cross">
                 </div>
             </div>
         `;
         mainContainer.insertAdjacentHTML('beforebegin', bigPictureTemplate);
         const wrapperOfBigPicture = document.querySelector('.wrapper-of-big-picture');
         wrapperOfBigPicture.classList.remove('hidden');
+
+        function hideBigPicture() {
+            document.querySelector('#red-cross').addEventListener('click', function(event) {
+                if (event.target) {
+                    let wrapperOfBigPicture = document.querySelector('.wrapper-of-big-picture');
+                    wrapperOfBigPicture.remove(wrapperOfBigPicture);
+                    arrayOfPictures.forEach(el => {
+                        el.classList.remove('not-click');
+                    })
+                } else {
+                    console.log('Error');
+                }
+            })
+        }
+        hideBigPicture();
     }
 
     arrayOfPictures.forEach(el => {
@@ -248,24 +263,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
-    function hideBigPicture() {
-        let wrapperOfBigPicture = document.querySelector('.wrapper-of-big-picture');
-        wrapperOfBigPicture.remove(wrapperOfBigPicture);
-        arrayOfPictures.forEach(el => {
-            el.classList.remove('not-click');
-        }) 
-    }
-
-    const closeBigPictureBtn = document.querySelector('.btn-close');
-    closeBigPictureBtn.addEventListener('click', function(event) {
-        if (event.target) {
-            hideBigPicture();
-        } else {
-            console.log('Error');
-        }
-    });
     
+    
+
 })
 
 
