@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return array[randomIndex];
     }
     const descrOfPhotos = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
         descrOfPhotos[i] = {
             url: getRandomSomething(ARRAY_OF_PHOTO_URL, ARRAY_OF_USED_PHOTO_URL),
             likes: Math.floor(Math.random() * (200 - 15 + 1) + 15),
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const mainWrapper = document.querySelector('.pictures');
     const arrayOfPictures = [];
-    function createNewPost(obj) { 
+    function createNewPost(obj, index) { 
         let comm = obj.comments[0];
         const wrapOfPicture = document.createElement('div');
         wrapOfPicture.classList.add('wrap-of-picture');
@@ -189,12 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
+        wrapOfPicture.setAttribute('data-picture-index', index);
         mainWrapper.append(wrapOfPicture);
         arrayOfPictures.push(wrapOfPicture);
     }
-    for (let i = 0; i < descrOfPhotos.length; i++) {
-        let j = descrOfPhotos[i];
-        createNewPost(j);
+    for (let index = 0; index < descrOfPhotos.length; index++) {
+        let newObj = descrOfPhotos[index];
+        createNewPost(newObj, index);
     };
     function showBigPicture(element) { 
         const mainContainer = document.querySelector('main');
@@ -248,6 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         hideBigPicture();
     }
+    
     arrayOfPictures.forEach(el => {
         el.addEventListener('click', (event) => {
             let index = arrayOfPictures.indexOf(el);
@@ -258,6 +260,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    
+    /*
+    document.addEventListener('click', function(event) { 
+        let target = event.target;
+        if (target.hasAttribute('data-picture-index')) { 
+            let index = target.getAttribute('data-picture-index'); 
+            console.log(index);            
+            showBigPicture(arrayOfPictures[index]); 
+        } else {
+            console.log('Error');
+        }
+    })
+    */
+   
+   
 })
 
 

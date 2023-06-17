@@ -206,7 +206,7 @@ a {
 
 .big-picture__descr {
     width: 250px;
-    font-size: 15px;
+    font-size: 14px;
     margin-bottom: 5px;
     color:rgb(28, 23, 49);
 }
@@ -227,8 +227,8 @@ a {
 }
 
 .big-picture__comments-text {
-    font-size: 15px;
-    width: 250px;
+    font-size: 14px;
+    width: 275px;
 }
 
 .content-active {
