@@ -261,22 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    /*
-    document.addEventListener('click', function(event) { 
-        let target = event.target;
-        if (target.hasAttribute('data-picture-index')) { 
-            let index = target.getAttribute('data-picture-index'); 
-            console.log(index);            
-            showBigPicture(arrayOfPictures[index]); 
-        } else {
-            console.log('Error');
-        }
-    })
-    */
-
-    //commit
-   
-   
 })
 
 
