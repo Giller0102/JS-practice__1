@@ -141,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const ARRAY_OF_USED_USER_NAMES = [];
     const ARRAY_OF_USED_URL_OF_AVATARS = [];
     const ARRAY_OF_USED_DESCRIPTIONS = [];
-
     function getRandomSomething(array, arrayOfUsedElements) {
         let randomIndex;
         do {
@@ -150,9 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         arrayOfUsedElements.push(randomIndex);
         return array[randomIndex];
     }
-
     const descrOfPhotos = [];
-
     for (let i = 0; i < 10; i++) {
         descrOfPhotos[i] = {
             url: getRandomSomething(ARRAY_OF_PHOTO_URL, ARRAY_OF_USED_PHOTO_URL),
@@ -167,10 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
             description: getRandomSomething(ARRAY_OF_DESCRIPTIONS, ARRAY_OF_USED_DESCRIPTIONS)
         }
     }
-
     const mainWrapper = document.querySelector('.pictures');
     const arrayOfPictures = [];
-
     function createNewPost(obj) { 
         let comm = obj.comments[0];
         const wrapOfPicture = document.createElement('div');
@@ -194,23 +189,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
-        
         mainWrapper.append(wrapOfPicture);
         arrayOfPictures.push(wrapOfPicture);
     }
-    
     for (let i = 0; i < descrOfPhotos.length; i++) {
         let j = descrOfPhotos[i];
         createNewPost(j);
     };
-
     function showBigPicture(element) { 
         const mainContainer = document.querySelector('main');
         const pictureImg = element.querySelector('.picture');
         const pictureLikes = element.querySelector('.picture__likes');
         const pictureDescr = element.querySelector('.picture__description');
         const pictureContent = element.querySelector('.content__wrapper');
-        // pictureContent.style.display = 'block';
+        const commentsText = element.querySelector('.comment__text');
+        const commentsAvatar = element.querySelector('.comment__avatar');
         const bigPictureTemplate = `
             <div class="wrapper-of-big-picture">
                 <div class="big-picture">
@@ -223,8 +216,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="big-picture__likes">${pictureLikes.textContent}</div>
                             </div>
                         </div>
-                        <div class="bigPictureCommentsWrapper">
-
+                        <div class="comments__wrapper">
+                            <div class="comments__descr-wr">
+                                <div>Комментарии:</div>
+                            </div>
+                            <div class="comment___el">
+                                <img src="${commentsAvatar.src}" class="comment__avatar">
+                                <div class="comment__text">${commentsText.textContent}</div>
+                            </div>
                         </div>
                     </div>
                     <img class="btn-close" src="img/close.png" id="red-cross">
@@ -234,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mainContainer.insertAdjacentHTML('beforebegin', bigPictureTemplate);
         const wrapperOfBigPicture = document.querySelector('.wrapper-of-big-picture');
         wrapperOfBigPicture.classList.remove('hidden');
-
         function hideBigPicture() {
             document.querySelector('#red-cross').addEventListener('click', function(event) {
                 if (event.target) {
@@ -250,22 +248,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         hideBigPicture();
     }
-
     arrayOfPictures.forEach(el => {
         el.addEventListener('click', (event) => {
             let index = arrayOfPictures.indexOf(el);
-
             if (event.target) {
                 showBigPicture(arrayOfPictures[index]);
             } else {
-                showBigPicture(arrayOfPictures[index]);
+                console.log('Error');
             }
         });
     });
-
-    
-    
-
 })
 
 

@@ -211,6 +211,12 @@ a {
     color:rgb(28, 23, 49);
 }
 
+.comments__wrapper {
+    width: 310px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
 .big-picture__comments-el {
     width: 310px;
 }
