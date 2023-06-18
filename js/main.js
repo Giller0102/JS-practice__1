@@ -141,31 +141,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const ARRAY_OF_USED_USER_NAMES = [];
     const ARRAY_OF_USED_URL_OF_AVATARS = [];
     const ARRAY_OF_USED_DESCRIPTIONS = [];
+
+    const descrOfPhotos = [];
+    const mainWrapper = document.querySelector('.pictures');
+    const arrayOfPictures = [];
+
     function getRandomSomething(array, arrayOfUsedElements) {
         let randomIndex;
+
         do {
             randomIndex = Math.floor(Math.random() * array.length);
         } while (arrayOfUsedElements.includes(randomIndex));
         arrayOfUsedElements.push(randomIndex);
+
         return array[randomIndex];
     }
-    const descrOfPhotos = [];
-    for (let i = 0; i < 15; i++) {
-        descrOfPhotos[i] = {
-            url: getRandomSomething(ARRAY_OF_PHOTO_URL, ARRAY_OF_USED_PHOTO_URL),
-            likes: Math.floor(Math.random() * (200 - 15 + 1) + 15),
-            comments: [
-                {
-                    avatar: getRandomSomething(ARRAY_OF_URL_OF_AVATARS, ARRAY_OF_USED_URL_OF_AVATARS),
-                    message: getRandomSomething(ARRAY_OF_COMMENTS, ARRAY_OF_USED_COMMENTS),
-                    name: getRandomSomething(ARRAY_OF_USER_NAMES, ARRAY_OF_USED_USER_NAMES)
-                }
-            ],
-            description: getRandomSomething(ARRAY_OF_DESCRIPTIONS, ARRAY_OF_USED_DESCRIPTIONS)
+
+    function fillArrayOfPictures() {
+        for (let i = 0; i < 10; i++) {
+            descrOfPhotos[i] = {
+                url: getRandomSomething(ARRAY_OF_PHOTO_URL, ARRAY_OF_USED_PHOTO_URL),
+                likes: Math.floor(Math.random() * (200 - 15 + 1) + 15),
+                comments: [
+                    {
+                        avatar: getRandomSomething(ARRAY_OF_URL_OF_AVATARS, ARRAY_OF_USED_URL_OF_AVATARS),
+                        message: getRandomSomething(ARRAY_OF_COMMENTS, ARRAY_OF_USED_COMMENTS),
+                        name: getRandomSomething(ARRAY_OF_USER_NAMES, ARRAY_OF_USED_USER_NAMES)
+                    }
+                ],
+                description: getRandomSomething(ARRAY_OF_DESCRIPTIONS, ARRAY_OF_USED_DESCRIPTIONS)
+            }
         }
     }
-    const mainWrapper = document.querySelector('.pictures');
-    const arrayOfPictures = [];
+    fillArrayOfPictures();
+
     function createNewPost(obj, index) { 
         let comm = obj.comments[0];
         const wrapOfPicture = document.createElement('div');
@@ -193,10 +202,22 @@ document.addEventListener('DOMContentLoaded', () => {
         mainWrapper.append(wrapOfPicture);
         arrayOfPictures.push(wrapOfPicture);
     }
+
     for (let index = 0; index < descrOfPhotos.length; index++) {
         let newObj = descrOfPhotos[index];
         createNewPost(newObj, index);
     };
+
+    function hideBigPicture() {
+        let wrapperOfBigPicture = document.querySelector('.wrapper-of-big-picture');
+
+        wrapperOfBigPicture.remove(wrapperOfBigPicture);
+
+        arrayOfPictures.forEach(el => {
+            el.classList.remove('not-click');
+        })
+    }
+
     function showBigPicture(element) { 
         const mainContainer = document.querySelector('main');
         const pictureImg = element.querySelector('.picture');
@@ -205,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pictureContent = element.querySelector('.content__wrapper');
         const commentsText = element.querySelector('.comment__text');
         const commentsAvatar = element.querySelector('.comment__avatar');
+
         const bigPictureTemplate = `
             <div class="wrapper-of-big-picture">
                 <div class="big-picture">
@@ -234,39 +256,27 @@ document.addEventListener('DOMContentLoaded', () => {
         mainContainer.insertAdjacentHTML('beforebegin', bigPictureTemplate);
         const wrapperOfBigPicture = document.querySelector('.wrapper-of-big-picture');
         wrapperOfBigPicture.classList.remove('hidden');
-        function hideBigPicture() {
-            document.querySelector('#red-cross').addEventListener('click', function(event) {
-                if (event.target) {
-                    let wrapperOfBigPicture = document.querySelector('.wrapper-of-big-picture');
-                    wrapperOfBigPicture.remove(wrapperOfBigPicture);
-                    arrayOfPictures.forEach(el => {
-                        el.classList.remove('not-click');
-                    })
-                } else {
-                    console.log('Error');
-                }
-            })
-        }
-        hideBigPicture();
+
+        const closeBtn = document.querySelector('.btn-close');
+        closeBtn.addEventListener('click', hideBigPicture);
     }
-    
-    arrayOfPictures.forEach(el => {
-        el.addEventListener('click', (event) => {
-            let index = arrayOfPictures.indexOf(el);
-            if (event.target) {
-                showBigPicture(arrayOfPictures[index]);
-            } else {
-                console.log('Error');
-            }
-        });
-    });
-    
+  
+    document.addEventListener('click', function(event) {
+        event.preventDefault(); 
+
+        let target = event.target;
+
+        const targetEl = target.closest('[data-picture-index]');
+        
+        if (targetEl) { 
+            let index = targetEl.getAttribute('data-picture-index');          
+            showBigPicture(arrayOfPictures[index]); 
+        } else {
+            console.log('Error');
+        }
+    })
+   
 })
-
-
-
-
-
 
 
 
